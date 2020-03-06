@@ -5,6 +5,8 @@ https://mongodb.github.io/node-mongodb-native/3.5/tutorials/crud/
 const MongoClient = require('mongodb').MongoClient;
 const mongoURL = require('./url');
 
+var database = 'pokemon';
+
 function writeItem(data, collectionName) {
     const client = new MongoClient(mongoURL.url, { useNewUrlParser: true });
     client.connect(function(err) {
@@ -16,11 +18,12 @@ function writeItem(data, collectionName) {
           console.log('Connection error!');
           throw new Error(err);
         }
-        const collection = client.db("test").collection(collectionName);
+        const collection = client.db(database).collection('pokedex');
         if (Array.isArray(data)) {
           collection.insertMany(data);
         } else {
           collection.insertOne(data);
+          console.log(`IO delete finished, using: ${item.title}`);
         }
         client.close();
     })
@@ -33,7 +36,7 @@ function readItems(callback, collectionName) {
           console.log('Connection error!');
           throw new Error(err);
         }
-        const collection = client.db("test").collection(collectionName);
+        const collection = client.db(database).collection('pokedex');
         return collection.find({}).toArray(callback);
   })
 }
@@ -41,7 +44,7 @@ function readItems(callback, collectionName) {
 function deleteItem(item, collectionName) {
   const client = new MongoClient(mongoURL.url, { useNewUrlParser: true });
   client.connect(function(err) {
-    const collection = client.db("test").collection(collectionName);
+    const collection = client.db(database).collection('pokedex');
     collection.deleteOne(item, function(err, r){
       if (err) {
         throw new Error(err)

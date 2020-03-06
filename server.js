@@ -20,13 +20,13 @@ app.use(bodyParser.json())
 function GetCassettesApi (req, res, next) {
     function resultsCallback (err, docs) {
         if (docs) {
-            res.json({'cassettesList': docs})
+            res.json({'pokedex': docs})
         } else {
             console.log('ouch');
             console.log(err);
         }
     }
-    mongoIO.readItem(resultsCallback);
+    mongoIO.readItems(resultsCallback);
 }
 
 app.get('/api/pokemon', GetCassettesApi)
@@ -34,6 +34,7 @@ app.get('/api/pokemon', GetCassettesApi)
 function PostCassettesApi (req, res, next) {
     if (req.body.add_cassette) {
         try {
+            console.log(req.boddy);
             mongoIO.writeItem(req.body)
         } catch (e) {
             next(`Ouch! ${e}`);

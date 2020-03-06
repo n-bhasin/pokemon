@@ -7,7 +7,7 @@ const mongoURL = require('./url');
 
 var database = 'pokemon';
 
-function writeItem(data, collectionName) {
+function writeItem(data) {
     const client = new MongoClient(mongoURL.url, { useNewUrlParser: true });
     client.connect(function(err) {
         // This will create a collection with the collectionName if one doesn't exist. In
@@ -23,13 +23,13 @@ function writeItem(data, collectionName) {
           collection.insertMany(data);
         } else {
           collection.insertOne(data);
-          console.log(`IO delete finished, using: ${item.title}`);
+          console.log(`IO write finished, using:`);
         }
         client.close();
     })
 }
 
-function readItems(callback, collectionName) {
+function readItems(callback) {
     const client = new MongoClient(mongoURL.url, { useNewUrlParser: true });
     client.connect(function(err) {
         if (err) {
@@ -41,7 +41,7 @@ function readItems(callback, collectionName) {
   })
 }
 
-function deleteItem(item, collectionName) {
+function deleteItem(item) {
   const client = new MongoClient(mongoURL.url, { useNewUrlParser: true });
   client.connect(function(err) {
     const collection = client.db(database).collection('pokedex');

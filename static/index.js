@@ -80,47 +80,37 @@ $(document).ready(function(){
     })
 
     var submit = $('#submit').on('click', function(e){
-        var name = $("#name");
-        var height = $("#height");
-        var weight = $("#weight");
-        var url = $('#url');
-        if(isNaN(height.val())){
+        var name = $("#name").val();
+        var height = $("#height").val();
+        var weight = $("#weight").val();
+        var url = $('#url').val();
+        if(isNaN(height)){
             console.log('Invalid height');
         }
-        if(isNaN(weight.val())){
+        if(isNaN(weight)){
             console.log('Invalid weight');
         }
-        alert('yes');
+        console.log(name, height,weight,url);
+        
         $.ajax({
-            type: "POST",
-            url: "/api/pokemon",
-            data: {
-                name: name.val(),
-                height: height.val(),
-                weight: weight.val(),
-                url: url.val()
-            },
-            success: function(data){
-                alert('ugh');
-                console.log('yes', data);
-                buildListItem(name.val(), height.val(),weight.val(),url.val());
-            },
-            failure: function(){
-                console.log('no');
-            }
+                url: '/api/pokemon',
+                 type: 'POST',
+                 data: {
+                    name: name,
+                    height: height,
+                    weight: weight,
+                    url: url
+                 }
+            }).done(function (data, status, req) {
+                console.log(`Added: ${name.val()}  ${data}to the collection!`);
+                buildListItem(name, height, weight, url);
+                name.val('');
+                height.val('');
+                weight.val('');
+                url.val('');
+        }).fail(function (req, status, err) {
+            alert(`Oh uh! Something went wrong. Got status: ${status}\nwith error: ${err}`);
         });
-            
-        // ).done(function (data, status, req) {
-        //     console.log(data);
-        //     console.log(`Added: ${name.val()} to the collection!`);
-        //     buildListItem(name.val(), height.val(),weight.val(),url.val());
-        //     name.val('');
-        //     height.val('');
-        //     weight.val('');
-        //     url.val('');
-        // }
-        // ).fail(function (req, status, err) {
-        //     alert(`Oh uh! Something went wrong. Got status: ${status}\nwith error: ${err}`);
-        // })
+       
     })
 })

@@ -32,14 +32,13 @@ function GetCassettesApi (req, res, next) {
 app.get('/api/pokemon', GetCassettesApi)
 
 function PostCassettesApi (req, res, next) {
-    if (req.body.add_cassette) {
+    if (req.body.name) {
         try {
-            console.log(req.boddy);
-            mongoIO.writeItem(req.body)
+            mongoIO.writeItem(req.body);
         } catch (e) {
             next(`Ouch! ${e}`);
         }
-        res.redirect('/index.html')
+        res.redirect('/pokemon.html');
     }
 }
 

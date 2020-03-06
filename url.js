@@ -1,0 +1,1 @@
+exports.url = 'mongodb+srv://local_library_user:local_library@cluster0-nhau9.azure.mongodb.net/pokemon?retryWrites=true&w=majority';
